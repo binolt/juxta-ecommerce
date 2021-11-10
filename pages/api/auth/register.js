@@ -1,12 +1,9 @@
 import dbConnect from "../../../utils/mongodb";
-import User from "../../../models/User";
+import { createUser } from "../../../lib/auth/user";
 
 
 export default async(req, res) => {
     await dbConnect();
-    const email = "hello@gmail.com";
-    const username = "steven924";
-    const newUser = new User({username, email});
-    await newUser.save();
-    res.json({msg: "register"})
+    const data = await createUser(req.body);
+    res.json(data)
 }
