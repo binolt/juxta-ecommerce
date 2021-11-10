@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root, body[data-theme="default"] {
+  --content-width: 1366px;
+  --color-contrast-100 : #ffffff;
+  --color-contrast-200 : #d8d8d8;
+  --color-contrast-300 : #6e6e6e;
+  --color-contrast-400 : #3a3a3a;
+  --color-accent-100 : #fc624d;
+  --color-accent-200 : #ce4f3e;
+}
+
+body[data-theme="dark"] {
+  --color-contrast-100 : #121212;
+  --color-contrast-200 : #262626;
+  --color-contrast-300 : #ababab;
+  --color-contrast-400 : #FFF;
+  --color-accent-100 : #bb86fc;
+}
+
+body {
+  color: var(--color-contrast-300);
+  background-color: var(--color-contrast-100);
+  font-size: 16px;
+}
+
+*, *:before, *:after{
+  box-sizing: border-box;
+}
+
+html, body, div, span, object, iframe, figure, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, code, em, img, small, strike, strong, sub, sup, tt, b, u, i, ol, ul, li, fieldset, form, label, table, caption, tbody, tfoot, thead, tr, th, td, main, canvas, embed, footer, header, nav, section, video{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  text-size-adjust: none;
+  font-family: "Inter", sans-serif;
+}
+
+footer, header, nav, section, main{
+  display: block;
+}
+
+body{
+  line-height: 1;
+}
+
+ol, ul{
+  list-style: none;
+}
+
+blockquote, q{
+  quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after{
+  content: '';
+  content: none;
+}
+
+table{
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+input{
+  -webkit-appearance: none;
+  border-radius: 0;
+}
