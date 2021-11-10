@@ -1,7 +1,7 @@
 import passport from "passport";
+import dbConnect from "../../../utils/mongodb";
 import nextConnect from "next-connect";
 import { localStrategy } from "../../../lib/auth/strategies";
-import dbConnect from "../../../utils/mongodb";
 import { setLoginSession } from "../../../lib/auth/session";
 
 const authenticate = (req, res) => new Promise((resolve, reject) => {

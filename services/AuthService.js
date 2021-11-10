@@ -1,5 +1,5 @@
-const InvoiceService = {
-    registerUser: async(data) => {
+const AuthService = {
+    register: async(data) => {
         const res = await fetch(`/api/auth/register`, {
             method: "POST",
             mode: "cors",
@@ -12,7 +12,7 @@ const InvoiceService = {
         })
         return await res.json();
     },
-    loginUser: async(data) => {
+    login: async(data) => {
         const res = await fetch(`/api/auth/login`, {
             method: "POST",
             mode: "cors",
@@ -27,4 +27,4 @@ const InvoiceService = {
     },
 };
 
-export default InvoiceService;
+export default AuthService;
