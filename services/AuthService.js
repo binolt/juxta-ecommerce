@@ -25,6 +25,10 @@ const AuthService = {
         })
         return await res.json();
     },
+    fetchSession: async () => {
+        const res = await fetch('/api/auth/session');
+        return await res.json();
+    },
 };
 
 export default AuthService;
