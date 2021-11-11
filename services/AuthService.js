@@ -29,6 +29,10 @@ const AuthService = {
         const res = await fetch('/api/auth/session');
         return await res.json();
     },
+    logout: async() => {
+        const res = await fetch('/api/auth/logout');
+        return await res.json();
+    }
 };
 
 export default AuthService;

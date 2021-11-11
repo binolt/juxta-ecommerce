@@ -1,7 +1,11 @@
 import { useRef } from "react";
+import { useAuth } from "../context/AuthContext";
 import AuthService from "../services/AuthService";
+import { useRouter } from "next/router";
 
 export default function Login() {
+    const {setUser} = useAuth();
+    const router = useRouter();
 
     const usernameRef = useRef(null);
     const passwordRef = useRef(null);
@@ -15,7 +19,8 @@ export default function Login() {
         }
 
         const res = await AuthService.login(payload);
-        console.log(res)
+        setUser(res.user);
+        router.push("/");
     }
 
     return (

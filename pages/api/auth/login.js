@@ -23,8 +23,8 @@ const handler =
             const user = await authenticate(req, res);
             const session = {...user};
             const cookie = await setLoginSession(res, session);
-            const {username, _id} = user;
-            const payload = {msgError: false, msgBody: `Welcome back, ${username}!`, user: {username, _id}}
+            const {username, _id, email} = user;
+            const payload = {msgError: false, msgBody: `Welcome back, ${username}!`, user: {username, _id, email}}
             res.setHeader("Set-cookie", cookie)
             res.status(201).json(payload);
         } catch (err) {
