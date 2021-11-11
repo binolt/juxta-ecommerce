@@ -31,6 +31,7 @@ export default function Login() {
                 <input ref={passwordRef} type="password" placeholder="Password"/>
                 <button type="submit">Login</button>
             </form>
+            <a href="/api/auth/github" style={{backgroundColor: 'orange'}}>LOGIN WITH GITHUB !!!</a>
         </div>
     );
 }
