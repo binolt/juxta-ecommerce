@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
+.app {
+  h1 {
+    font-weight: 400;
+  }
+}
+
 :root, body[data-theme="default"] {
   --content-width: 1366px;
   --color-contrast-100 : #ffffff;
