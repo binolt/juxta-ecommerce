@@ -1,6 +1,5 @@
 import { useAuth } from "../context/AuthContext";
 import AuthService from "../services/AuthService";
-import styles from "../styles/navbar.module.scss";
 import { useRouter } from "next/router";
 
 export default function Navbar() {
@@ -17,10 +16,10 @@ export default function Navbar() {
     }
     
     return (
-        <nav className={styles.wrapper}>
-            <div className={styles.content}>
+        <nav className="wrapper">
+            <div className="content">
             <button onClick={() => handleRoute('')}>Home</button>
-            <span className={styles.flexend}>
+            <span className="flexend">
                 <button onClick={() => handleRoute('login')}>Login</button>
                 <button onClick={() => handleRoute('register')}>Register</button>
                 <button onClick={handleLogout}>Logout</button>

@@ -1,27 +1,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "./breakpoints.scss";
+
+.wrapper {
+    height: 60px;
+    box-sizing: border-box;
+}
+
+.content {
+    width: var(--content-width);
+    margin: 0 auto;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    position: relative;
+    @include media('<=desktop') {
+        width: 100%;
+    }
+    button {
+        background-color: none;
+        padding: 0;
+        font-size: inherit;
+        background-color: transparent;
+        border: 0;
+        outline: none;
+        margin-left: 1rem;
+        color: var(--color-contrast-400);
+        cursor: pointer;
+    }
+}
+
+.flexend {
+    position: absolute;
+    right: 2rem;
+    a {
+        margin-left: 1rem;
+        text-decoration: none;
+        color: var(--color-contrast-400);
+    }
+}
 
 .app {
   h1 {
     font-weight: 400;
   }
-}
-
-:root, body[data-theme="default"] {
-  --content-width: 1366px;
-  --color-contrast-100 : #ffffff;
-  --color-contrast-200 : #d8d8d8;
-  --color-contrast-300 : #6e6e6e;
-  --color-contrast-400 : #3a3a3a;
-  --color-accent-100 : #fc624d;
-  --color-accent-200 : #ce4f3e;
-}
-
-body[data-theme="dark"] {
-  --color-contrast-100 : #121212;
-  --color-contrast-200 : #262626;
-  --color-contrast-300 : #ababab;
-  --color-contrast-400 : #FFF;
-  --color-accent-100 : #bb86fc;
 }
 
 body {
