@@ -16,16 +16,6 @@
     @include media('<=desktop') {
         width: 100%;
     }
-}
-
-.flexend {
-    position: absolute;
-    right: 2rem;
-    a {
-        margin-left: 1rem;
-        text-decoration: none;
-        color: var(--color-contrast-400);
-    }
     button {
         background-color: none;
         padding: 0;
@@ -36,5 +26,15 @@
         margin-left: 1rem;
         color: var(--color-contrast-400);
         cursor: pointer;
+    }
+}
+
+.flexend {
+    position: absolute;
+    right: 2rem;
+    a {
+        margin-left: 1rem;
+        text-decoration: none;
+        color: var(--color-contrast-400);
     }
 }

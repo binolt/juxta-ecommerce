@@ -1,28 +1,29 @@
-import Link from "next/link";
-import { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import AuthService from "../services/AuthService";
 import styles from "../styles/navbar.module.scss";
+import { useRouter } from "next/router";
 
 export default function Navbar() {
     const {setUser, currentUser} = useAuth();
+    const router = useRouter();
 
     const handleLogout = async() => {
         const res = await AuthService.logout();
         setUser(res.user);
     }
+
+    const handleRoute = (target) => {
+        router.push(`/${target}`);
+    }
     
     return (
         <nav className={styles.wrapper}>
             <div className={styles.content}>
-            <Link href="/">Home</Link>
+            <button onClick={() => handleRoute('')}>Home</button>
             <span className={styles.flexend}>
-                {Object.keys(currentUser).length === 0 ?<>
-                    <Link href="/login">Login</Link>
-                    <Link href="/register">Register</Link>
-                </>:
-                    <button onClick={handleLogout}>Logout</button>
-                }
+                <button onClick={() => handleRoute('login')}>Login</button>
+                <button onClick={() => handleRoute('register')}>Register</button>
+                <button onClick={handleLogout}>Logout</button>
             </span>
             </div>
         </nav>
