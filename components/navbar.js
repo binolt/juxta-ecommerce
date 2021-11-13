@@ -13,19 +13,18 @@ export default function Navbar() {
     }
     
     return (
-        // <nav className={styles.wrapper}>
-        //     <div className={styles.content}>
-        //     <Link href="/">Home</Link>
-        //     <span className={styles.flexend}>
-        //         {Object.keys(currentUser).length === 0 ?<>
-        //             <Link href="/login">Login</Link>
-        //             <Link href="/register">Register</Link>
-        //         </>:
-        //             <button onClick={handleLogout}>Logout</button>
-        //         }
-        //     </span>
-        //     </div>
-        // </nav>
-        <p>Nav</p>
+        <nav className={styles.wrapper}>
+            <div className={styles.content}>
+            <Link href="/">Home</Link>
+            <span className={styles.flexend}>
+                {Object.keys(currentUser).length === 0 ?<>
+                    <Link href="/login">Login</Link>
+                    <Link href="/register">Register</Link>
+                </>:
+                    <button onClick={handleLogout}>Logout</button>
+                }
+            </span>
+            </div>
+        </nav>
     );
 }
