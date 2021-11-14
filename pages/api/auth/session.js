@@ -7,7 +7,7 @@ export default async (req, res) => {
         await dbConnect();
         const session = await getLoginSession(req);
         const user = session ? await findUser({_id: session._doc._id}) : {};
-        res.status(200).json(user);
+        res.json({user});
     } catch (err) {
         res.status(500).end('Authentication token is invalid, please log in')
     }
