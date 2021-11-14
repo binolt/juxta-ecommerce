@@ -3,6 +3,7 @@ import nextConnect from "next-connect";
 import withPassport from "../../../../lib/auth/withPassport";
 import { githubStrategy } from "../../../../lib/auth/strategies";
 import { setLoginSession } from "../../../../lib/auth/session";
+import dbConnect from "../../../../utils/mongodb";
 
 passport.use(githubStrategy);
 
@@ -17,6 +18,7 @@ const handler = nextConnect()
     .use(passport.initialize())
     .get(async (req, res) => {
     try {
+        await dbConnect();
         const user = await authenticate(req, res)
         const session = {...user}
         const cookie = await setLoginSession(res, session);
