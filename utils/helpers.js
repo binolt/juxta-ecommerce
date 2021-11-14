@@ -6,3 +6,10 @@ export function validateEmail(email) {
 export function randomIntFromInterval(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
+
+export const imageFilter = function (req, file, cb) {
+    if (!file.originalname.match(/.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error("Only image files are allowed"), false);
+    }
+    cb(null, true);
+}

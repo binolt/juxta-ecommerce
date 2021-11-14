@@ -5,9 +5,6 @@ export default async(req, res) => {
         case "GET" : 
             fetchAllProducts(req, res);
             break;
-        case "POST" : 
-            createProduct(req, res);
-            break;
         case "PUT" : 
             updateProduct(req, res);
             break;
@@ -22,10 +19,6 @@ const fetchAllProducts = async(req, res) => {
     const products = await fetchAll();
     console.log(products);
     res.json({msg: "fetch all"});
-}
-
-const createProduct = async(req, res) => {
-    res.json({msg: "create"});
 }
 
 const updateProduct = async(req, res) => {

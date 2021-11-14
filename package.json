@@ -8,10 +8,13 @@
   "dependencies": {
     "@hapi/iron": "^6.0.0",
     "@zeit/next-css": "^1.0.1",
+    "cloudinary": "^1.27.1",
     "cookie": "^0.4.1",
     "crypto": "^1.0.1",
+    "datauri": "^4.1.0",
     "micro-redirect": "^1.0.2",
     "mongoose": "^6.0.12",
+    "multer": "^1.4.3",
     "next": "latest",
     "next-connect": "^0.11.0",
     "passport": "^0.4.1",
