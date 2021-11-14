@@ -1,13 +1,6 @@
 import nextConnect from "next-connect";
-import cloudinary from "cloudinary";
 import { uploadFile, formatBufferTo64 } from "../../../utils/multer";
-import { uploadImage } from "../../../lib/product";
-
-cloudinary.v2.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+import {newStripeProduct, uploadImage, newStripePrice} from "../../../lib/product";
 
 const handler = 
     nextConnect()
@@ -17,10 +10,34 @@ const handler =
             res.json({msg: "You must upload a file !", error: true})
             return;
         }
+
         try {
+            //upload image
             const file64 = formatBufferTo64(req.file);
-            const { secure_url : image } = await cloudinary.v2.uploader.upload(file64.content, {folder: 'surf-district'});
-            res.json({msg: "Image successfully uploaded !", url: image, error: false})
+            const {image, uploadError} = await uploadImage(file64);
+            if(uploadError) {
+                res.status(500).json(uploadError);
+                return;
+            }
+
+            //create new stripe product
+            const {id, productError} = await newStripeProduct(req.body.title, image);
+            if(productError) {
+                res.status(500).json(productError);
+                return;
+            }
+
+            //create a new stripe price 
+            const {priceId, priceError} = await newStripePrice(id, req.body.price);
+            if(priceError) {
+                res.status(500).json(productError);
+                return;
+            }
+
+
+            //create new product
+
+            res.json({msg: "Image successfully uploaded !", error: false, productId: id, priceId})
         } catch (err) {
             if(err) throw new Error(err);
             console.log(err)
