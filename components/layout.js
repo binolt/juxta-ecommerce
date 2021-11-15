@@ -11,7 +11,7 @@ export default function Layout({children}) {
     //fetch user from session and update auth context
     useEffect(() => {
         if(user) {
-            setUser(user);
+            setUser(user.user);
             setLoaded(true);
         };
     }, [user]);
