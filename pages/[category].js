@@ -16,7 +16,6 @@ export default function Category(props) {
 
     return (
         <div>
-            {props.category}
             <div style={{display: 'flex'}}>
             {props.products.map((product => {
                 return (
@@ -39,7 +38,7 @@ export const getStaticProps = async (ctx) => {
     const products = await res.json();
 
     return {
-        props: { products, category }
+        props: { products }
     }
 }
 
