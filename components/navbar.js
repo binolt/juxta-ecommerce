@@ -19,6 +19,7 @@ export default function Navbar() {
         <nav className="wrapper">
             <div className="content">
             <button onClick={() => handleRoute('')}>Home</button>
+            <button onClick={() => handleRoute('mens')}>Shop</button>
             {Object.keys(currentUser).length > 0 && <button onClick={() => handleRoute('dashboard')}>Dashboard</button>}
             <span className="flexend">
                 {Object.keys(currentUser).length > 0 ? 

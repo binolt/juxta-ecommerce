@@ -3,7 +3,7 @@ import { fetchAll } from "../../../lib/product";
 export default async(req, res) => {
     switch(req.method) {
         case "GET" : 
-            fetchAllProducts(req, res);
+            fetchProduct(req, res);
             break;
         case "PUT" : 
             updateProduct(req, res);
@@ -15,7 +15,7 @@ export default async(req, res) => {
 }
 
 
-const fetchAllProducts = async(req, res) => {
+const fetchProduct = async(req, res) => {
     const products = await fetchAll();
     console.log(products);
     res.json({msg: "fetch all"});
