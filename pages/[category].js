@@ -1,6 +1,11 @@
 import { DEFAULT_CATEGORIES } from "../lib/shop-data";
 import { useRouter } from "next/router";
 
+const PROD_URL = 'https://wip.d357ssoqg6gnyt.amplifyapp.com';
+const DEV_URL = 'http://localhost:3000';
+const baseUrl = (process.env.NODE_ENV === "development") ? DEV_URL : PROD_URL;
+
+
 export default function Category(props) {
     const router = useRouter();
 
@@ -8,7 +13,7 @@ export default function Category(props) {
         const title = target.title.toLowerCase().replace("/", " ");
         router.push({pathname: `/product/${title}`, query: {pid: target._id}})
     }
-    
+
     return (
         <div>
             {props.category}
@@ -30,7 +35,7 @@ export const getStaticProps = async (ctx) => {
     const {category} = ctx.params;
 
     //fetch products based off category
-    const res = await fetch(`http://localhost:3000/api/shop/${category}`);
+    const res = await fetch(`${baseUrl}/api/shop/${category}`);
     const products = await res.json();
 
     return {
