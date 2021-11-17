@@ -8,7 +8,6 @@ const baseUrl = (process.env.NODE_ENV === "development") ? DEV_URL : PROD_URL;
 
 export default function Category(props) {
     const router = useRouter();
-    const {category} = router.query;
 
     const handleClick = (target) => {
         const title = target.title.toLowerCase().replace("/", " ");
@@ -18,7 +17,7 @@ export default function Category(props) {
     return (
         <div>
             <div style={{display: 'flex'}}>
-                <p>{category}</p>
+                <p>{props.category}</p>
             {/* {props.products.map((product => {
                 return (
                     <div onClick={() => handleClick(product)} key={product._id} style={{width: 250, backgroundColor: 'orange'}}>
@@ -32,25 +31,25 @@ export default function Category(props) {
     );
 }
 
-// export const getStaticProps = async (ctx) => {
-//     const {category} = ctx.params;
+export const getStaticProps = async (ctx) => {
+    const {category} = ctx.params;
 
-//     //fetch products based off category
-//     const res = await fetch(`${baseUrl}/api/shop/${category}`);
-//     const products = await res.json();
+    // //fetch products based off category
+    // const res = await fetch(`${baseUrl}/api/shop/${category}`);
+    // const products = await res.json();
 
-//     return {
-//         props: { products }
-//     }
-// }
+    return {
+        props: { category }
+    }
+}
 
-// export const getStaticPaths = async () => {
-//     const paths = DEFAULT_CATEGORIES.map((category) => ({
-//         params: { category },
-//     }))
+export const getStaticPaths = async () => {
+    const paths = DEFAULT_CATEGORIES.map((category) => ({
+        params: { category },
+    }))
 
-//     return {
-//         paths,
-//         fallback:false
-//     }
-// }
+    return {
+        paths,
+        fallback : false
+    }
+}
