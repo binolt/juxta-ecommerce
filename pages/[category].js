@@ -17,15 +17,14 @@ export default function Category(props) {
     return (
         <div>
             <div style={{display: 'flex'}}>
-                <p>{props.category}</p>
-            {/* {props.products.map((product => {
+            {props.products && props.products.map((product => {
                 return (
                     <div onClick={() => handleClick(product)} key={product._id} style={{width: 250, backgroundColor: 'orange'}}>
                         <img src={product.image} style={{width: 250}}/>
                         <p>{product.title}</p>
                     </div>
                 )
-            }))} */}
+            }))}
             </div>
         </div>
     );
@@ -38,7 +37,11 @@ export const getStaticProps = async (ctx) => {
     const res = await fetch(`${baseUrl}/api/shop/${category}`);
     const products = await res.json();
 
-    console.log(products);
+    if(products) {
+        return {
+            props: { products, category }
+        }
+    }
 
     return {
         props: { category }
