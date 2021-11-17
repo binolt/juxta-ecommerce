@@ -35,8 +35,10 @@ export const getStaticProps = async (ctx) => {
     const {category} = ctx.params;
 
     // //fetch products based off category
-    // const res = await fetch(`${baseUrl}/api/shop/${category}`);
-    // const products = await res.json();
+    const res = await fetch(`${baseUrl}/api/shop/${category}`);
+    const products = await res.json();
+
+    console.log(products);
 
     return {
         props: { category }
