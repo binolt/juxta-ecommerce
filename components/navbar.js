@@ -22,6 +22,7 @@ export default function Navbar() {
             <button onClick={() => handleRoute('mens')}>Shop</button>
             {Object.keys(currentUser).length > 0 && <button onClick={() => handleRoute('dashboard')}>Dashboard</button>}
             <span className="flexend">
+                <button onClick={() => handleRoute('cart')}>Cart</button>
                 {Object.keys(currentUser).length > 0 ? 
                     <button onClick={handleLogout}>Logout</button> : (
                     <>
