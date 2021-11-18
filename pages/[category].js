@@ -1,5 +1,6 @@
 import { DEFAULT_CATEGORIES } from "../lib/shop-data";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const PROD_URL = 'https://wip.d357ssoqg6gnyt.amplifyapp.com';
 const DEV_URL = 'http://localhost:3000';
@@ -16,6 +17,16 @@ export default function Category(props) {
 
     return (
         <div>
+            <h1>Shop {props.category}</h1>
+            <span style={{display: 'flex', margin: '1rem 0'}}>
+                {DEFAULT_CATEGORIES.map((item) =>
+                    <Link key={`navigation-${item}`} href={`/${item}`}>
+                        <p style={{marginRight: 10, cursor: 'pointer', color: props.category === item && 'orange'}}>
+                            {item}
+                        </p>
+                    </Link>
+                )}
+            </span>
             <div style={{display: 'flex'}}>
             {props.products && props.products.map((product => {
                 return (
