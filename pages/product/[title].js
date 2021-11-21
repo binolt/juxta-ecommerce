@@ -1,4 +1,4 @@
-import { useCart } from "../../context/CartContext";
+import { cartStorage, useCart } from "../../context/CartContext";
 
 const PROD_URL = 'https://wip.d357ssoqg6gnyt.amplifyapp.com';
 const DEV_URL = 'http://localhost:3000';
@@ -8,7 +8,38 @@ export default function Product(props) {
     const {cart, setCart} = useCart();
 
     const addToCart = async () => {
-        console.log(props.product);
+        //update global cart state
+        const product = props.product;
+        let updatedCart = [...cart];
+        let inCart = false;
+
+        //check for existing product in cart
+        updatedCart.forEach((item, idx) =>{ 
+            if(item._id === product._id) {
+                //update quantity
+                inCart = true;
+                let quantity = item.quantity;
+                const updatedItem = {
+                    ...item,
+                    quantity: quantity + 1
+                }
+                //remove old item and replace with updated item
+                updatedCart.splice(idx, 1);
+                updatedCart.splice(idx, 0, updatedItem);
+                return;
+            }
+        });
+
+        //if product is not in cart
+        if(!inCart) {
+            const newProduct = {...product, quantity: 1};
+            updatedCart = [...updatedCart, newProduct];
+        };
+
+        setCart(updatedCart);
+
+        //sync local storage
+        await cartStorage.setItem("cart", updatedCart);
     }
 
     return (

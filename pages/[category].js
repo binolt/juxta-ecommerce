@@ -1,6 +1,7 @@
-import { DEFAULT_CATEGORIES } from "../lib/shop-data";
+import { DEFAULT_CATEGORIES, DEFAULT_SUBCATEGORIES, SUBCATEGORY_IDS } from "../lib/shop-data";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const PROD_URL = 'https://wip.d357ssoqg6gnyt.amplifyapp.com';
 const DEV_URL = 'http://localhost:3000';
@@ -9,10 +10,18 @@ const baseUrl = (process.env.NODE_ENV === "development") ? DEV_URL : PROD_URL;
 
 export default function Category(props) {
     const router = useRouter();
+    const subcategories = DEFAULT_SUBCATEGORIES[props.category];
 
     const handleClick = (target) => {
         const title = target.title.toLowerCase().replace("/", " ");
         router.push({pathname: `/product/${title}`, query: {pid: target._id}})
+    }
+
+    const toggleBrand = (target) => {
+        console.log(target)
+        const id = SUBCATEGORY_IDS[target];
+        console.log(id);
+        router.push({pathname: `/${props.category}`, query: {brand: id}})
     }
 
     return (
@@ -37,6 +46,11 @@ export default function Category(props) {
                 )
             }))}
             </div>
+            <span>
+                {subcategories.map((item) => 
+                    <p onClick={() => toggleBrand(item)} key={`subcategory-${item}`}>{item}</p>
+                )}
+            </span>
         </div>
     );
 }
