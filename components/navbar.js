@@ -1,9 +1,13 @@
 import { useAuth } from "../context/AuthContext";
 import AuthService from "../services/AuthService";
 import { useRouter } from "next/router";
+import Drawer from '@mui/material/Drawer';
+import { useCart } from "../context/CartContext";
+import Cart from "./cart";
 
 export default function Navbar() {
     const {setUser, currentUser} = useAuth();
+    const {cartOpen, setCartOpen} = useCart();
     const router = useRouter();
 
     const handleLogout = async() => {
@@ -14,7 +18,7 @@ export default function Navbar() {
     const handleRoute = (target) => {
         router.push(`/${target}`);
     }
-    
+
     return (
         <nav className="wrapper">
             <div className="content">
@@ -22,7 +26,7 @@ export default function Navbar() {
             <button onClick={() => handleRoute('mens')}>Shop</button>
             {Object.keys(currentUser).length > 0 && <button onClick={() => handleRoute('dashboard')}>Dashboard</button>}
             <span className="flexend">
-                <button onClick={() => handleRoute('cart')}>Cart</button>
+                <button onClick={() => setCartOpen(true)}>Cart</button>
                 {Object.keys(currentUser).length > 0 ? 
                     <button onClick={handleLogout}>Logout</button> : (
                     <>
@@ -32,6 +36,13 @@ export default function Navbar() {
                 )}
             </span>
             </div>
+            <Drawer
+                anchor='right'
+                open={cartOpen}
+                onClose={() => setCartOpen(false)}
+            >
+                <Cart/>
+            </Drawer>
         </nav>
     );
 }

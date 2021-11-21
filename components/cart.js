@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { cartStorage, useCart } from "../context/CartContext"
+import { cartStorage, useCart } from "../context/CartContext";
 
 export default function Cart () {
   const {cart, setCart} = useCart();

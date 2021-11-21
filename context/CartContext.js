@@ -9,6 +9,7 @@ export const cartStorage = localforage.createInstance({
 
 export function CartContext({ children }) {
   const [cart, setCart] = useState([]);
+  const [cartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
     //fetch cart data from localforage
@@ -23,6 +24,8 @@ export function CartContext({ children }) {
   const value = {
       cart,
       setCart,
+      cartOpen,
+      setCartOpen
   }
 
   return (
