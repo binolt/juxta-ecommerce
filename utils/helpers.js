@@ -13,3 +13,6 @@ export const imageFilter = function (req, file, cb) {
     }
     cb(null, true);
 }
+
+export const reverseMap = o => Object.keys(o).reduce((r, k) =>
+Object.assign(r, { [o[k]]: (r[o[k]] || []).concat(k) }), {})

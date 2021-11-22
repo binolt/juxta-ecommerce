@@ -5,7 +5,7 @@ const DEV_URL = 'http://localhost:3000';
 const baseUrl = (process.env.NODE_ENV === "development") ? DEV_URL : PROD_URL;
 
 export default function Product(props) {
-    const {cart, setCart} = useCart();
+    const {cart, setCart, setCartOpen} = useCart();
 
     const addToCart = async () => {
         //update global cart state
@@ -40,6 +40,8 @@ export default function Product(props) {
 
         //sync local storage
         await cartStorage.setItem("cart", updatedCart);
+
+        setCartOpen(true)
     }
 
     return (
