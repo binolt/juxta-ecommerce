@@ -37,10 +37,10 @@ export default function Category(props) {
 
         //filter products based off brand
         const brandProducts = filterBrands(props.products, res);
-        setProducts(brandProducts)
 
         //filter products based off filter value
         const filteredProducts = filterProducts(brandProducts, parseInt(filter));
+        setProducts(filteredProducts)
 
     }, [router.query.category])
 
