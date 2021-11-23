@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { reverseMap } from "../utils/helpers";
-import { fetchBrands, fetchQueries } from "../lib/category";
+import { fetchBrands, fetchFilter, fetchQueries } from "../lib/category";
 
 const PROD_URL = 'https://wip.d357ssoqg6gnyt.amplifyapp.com';
 const DEV_URL = 'http://localhost:3000';
@@ -17,9 +17,14 @@ export default function Category(props) {
     const subcategories = DEFAULT_SUBCATEGORIES[props.category];
 
     useEffect(() => {
-        //fetch brands
+        //fetch filter value
+        const filter = fetchFilter(router);
+        setFilterValue(filter);
+
+        //fetch brand value
         const res = fetchBrands(router, subcategories);
         setBrands(res);
+        
     }, [router.query.category])
 
     const handleClick = (target) => {
@@ -36,8 +41,8 @@ export default function Category(props) {
 
         //generate query object
         let result = fetchQueries(updatedBrands);
-        console.log(result);
-        console.log(router.query)
+
+        //check for existing filter query and append it to the object
         if(router.query.filter) {
             result = {
                 ...result,
@@ -53,9 +58,7 @@ export default function Category(props) {
     }
 
     const handleFilterChange = (e) => {
-        console.log(e.target.value)
         setFilterValue(e.target.value);
-        console.log(router.query);
         const currentQueries = {...router.query};
         delete currentQueries['category'];
         router.push({pathname: `/${props.category}`, query: {...currentQueries, filter: e.target.value}})
@@ -75,7 +78,7 @@ export default function Category(props) {
             </span>
             <span style={{marginBottom: '1rem', display: 'block'}}>
                 <p>Filtering Options</p>
-                <select onChange={handleFilterChange}>
+                <select onChange={handleFilterChange} value={filterValue}>
                     <option value={10}>Popularity</option>
                     <option value={20}>Price : Low - High</option>
                     <option value={30}>Price : High - Low</option>
