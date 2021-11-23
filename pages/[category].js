@@ -1,19 +1,20 @@
-import { DEFAULT_CATEGORIES, DEFAULT_SUBCATEGORIES, SUBCATEGORY_IDS } from "../lib/shop-data";
-import { useRouter } from "next/router";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { reverseMap } from "../utils/helpers";
-import { fetchBrands, fetchFilter, fetchQueries } from "../lib/category";
+import { fetchBrands, fetchFilter, fetchQueries, filterBrands } from "../lib/category";
+import { DEFAULT_CATEGORIES, DEFAULT_SUBCATEGORIES } from "../lib/shop-data";
 
+//URLS
 const PROD_URL = 'https://wip.d357ssoqg6gnyt.amplifyapp.com';
 const DEV_URL = 'http://localhost:3000';
 const baseUrl = (process.env.NODE_ENV === "development") ? DEV_URL : PROD_URL;
 
-
 export default function Category(props) {
-    const router = useRouter();
     const [brands, setBrands] = useState({});
     const [filterValue, setFilterValue] = useState(10);
+    const [products, setProducts] = useState([])
+    const router = useRouter();
+    
     const subcategories = DEFAULT_SUBCATEGORIES[props.category];
 
     useEffect(() => {
@@ -24,7 +25,11 @@ export default function Category(props) {
         //fetch brand value
         const res = fetchBrands(router, subcategories);
         setBrands(res);
-        
+
+        //filter products based off brand
+        const filteredProducts = filterBrands(props.products, res);
+        setProducts(filteredProducts);
+
     }, [router.query.category])
 
     const handleClick = (target) => {
@@ -51,7 +56,7 @@ export default function Category(props) {
         }
 
         //update the URL queries
-        router.push({pathname: `/${props.category}`, query: result})
+        router.push({pathname: `/${props.category}`, query: result});
 
         //push state
         setBrands(updatedBrands);
@@ -85,7 +90,7 @@ export default function Category(props) {
                 </select>
             </span>
             <div style={{display: 'flex'}}>
-            {props.products && props.products.map((product => {
+            {products && products.map((product => {
                 return (
                     <div onClick={() => handleClick(product)} key={product._id} style={{width: 250, backgroundColor: 'orange'}}>
                         <img src={product.image} style={{width: 250}}/>
