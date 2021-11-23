@@ -2,12 +2,21 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { fetchBrands, fetchFilter, fetchQueries, filterBrands } from "../lib/category";
+import { filterProducts } from "../lib/filter";
 import { DEFAULT_CATEGORIES, DEFAULT_SUBCATEGORIES } from "../lib/shop-data";
 
 //URLS
 const PROD_URL = 'https://wip.d357ssoqg6gnyt.amplifyapp.com';
 const DEV_URL = 'http://localhost:3000';
 const baseUrl = (process.env.NODE_ENV === "development") ? DEV_URL : PROD_URL;
+
+const filterData = [
+    {label: "Featured", value: 10},
+    {label: "Popular", value: 20},
+    {label: "Date Added", value: 30},
+    {label: "Price: Low - High", value: 40},
+    {label: "Price: High - Low", value: 50},
+]
 
 export default function Category(props) {
     const [brands, setBrands] = useState({});
@@ -27,8 +36,11 @@ export default function Category(props) {
         setBrands(res);
 
         //filter products based off brand
-        const filteredProducts = filterBrands(props.products, res);
-        setProducts(filteredProducts);
+        const brandProducts = filterBrands(props.products, res);
+        setProducts(brandProducts)
+
+        //filter products based off filter value
+        const filteredProducts = filterProducts(brandProducts, parseInt(filter));
 
     }, [router.query.category])
 
@@ -38,7 +50,7 @@ export default function Category(props) {
     }
 
     const toggleBrand = (target) => {
-        //update existing state
+        //mutate existing state
         const updatedBrands = {
             ...brands,
             [target]: !brands[target]
@@ -60,9 +72,9 @@ export default function Category(props) {
 
         //filter products
         const filteredProducts = filterBrands(props.products, updatedBrands);
-        setProducts(filteredProducts);
-
+        
         //push state
+        setProducts(filteredProducts);
         setBrands(updatedBrands);
     }
 
@@ -88,20 +100,18 @@ export default function Category(props) {
             <span style={{marginBottom: '1rem', display: 'block'}}>
                 <p>Filtering Options</p>
                 <select onChange={handleFilterChange} value={filterValue}>
-                    <option value={10}>Popularity</option>
-                    <option value={20}>Price : Low - High</option>
-                    <option value={30}>Price : High - Low</option>
+                    {filterData.map(({label, value}) => 
+                        <option key={`filter-select-${value}`} value={value}>{label}</option>
+                    )}
                 </select>
             </span>
             <div style={{display: 'flex'}}>
-            {products && products.map((product => {
-                return (
+                {products && products.map((product => 
                     <div onClick={() => handleClick(product)} key={product._id} style={{width: 250, backgroundColor: 'orange'}}>
                         <img src={product.image} style={{width: 250}}/>
                         <p>{product.title}</p>
                     </div>
-                )
-            }))}
+                ))}
             </div>
             <span>
                 {subcategories.map((item) => 
