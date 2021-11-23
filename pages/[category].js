@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { reverseMap } from "../utils/helpers";
+import { fetchBrands, fetchQueries } from "../lib/category";
 
 const PROD_URL = 'https://wip.d357ssoqg6gnyt.amplifyapp.com';
 const DEV_URL = 'http://localhost:3000';
@@ -12,48 +13,13 @@ const baseUrl = (process.env.NODE_ENV === "development") ? DEV_URL : PROD_URL;
 export default function Category(props) {
     const router = useRouter();
     const [brands, setBrands] = useState({});
+    const [filterValue, setFilterValue] = useState(10);
     const subcategories = DEFAULT_SUBCATEGORIES[props.category];
 
     useEffect(() => {
-        //fetch brands by splitting the URL
-        let brandList = router.asPath.split("?");
-        let activeBrands = [];
-        brandList.shift()
-        
-        //loop through brands array and push its corresponding value into an array
-        if(brandList.length) {
-            let tempList = brandList[0].split("&");
-            tempList.forEach((b) => {
-                //reverse the SUBCATEGORY_IDS array so we can use the id as a key
-                const reversedIds = reverseMap(SUBCATEGORY_IDS);
-                const value = b.split("=")[1]
-                activeBrands.push(reversedIds[value][0])
-            });
-        }
-
-        let tempBrands = [];
-        //create array of objects with subcategories and a boolean
-        subcategories.forEach((subcat) => {
-            let obj = {};
-            let isActive = false;
-            //if brand is active / set value to true
-            for(let i = 0; i < activeBrands.length; i++) {
-                let b = activeBrands[i];
-                if(b == subcat) {
-                    isActive = true;
-                    break;
-                }
-            }
-            //push obj into arr
-            obj = {[subcat] : isActive}
-            tempBrands.push(obj);
-        })
-
-        //spread array into a new object
-        const obj = {}
-        const result = Object.assign({}, obj, ...tempBrands);
-
-        setBrands(result);
+        //fetch brands
+        const res = fetchBrands(router, subcategories);
+        setBrands(res);
     }, [router.query.category])
 
     const handleClick = (target) => {
@@ -62,36 +28,37 @@ export default function Category(props) {
     }
 
     const toggleBrand = (target) => {
-        //update brands
+        //update existing state
         const updatedBrands = {
             ...brands,
             [target]: !brands[target]
         };
-        
-        //loop over updatedBrands and push toggled brands into an array
-        let queryList = [];
-        Object.keys(updatedBrands).forEach((brand) => {
-            if(updatedBrands[brand]) {
-                queryList.push(SUBCATEGORY_IDS[brand]);
+
+        //generate query object
+        let result = fetchQueries(updatedBrands);
+        console.log(result);
+        console.log(router.query)
+        if(router.query.filter) {
+            result = {
+                ...result,
+                filter: router.query.filter
             }
-        });
-
-        //create a new array with indexed brands
-        let tempQueries = [];
-        queryList.forEach((q, idx) => {
-            const obj = {[`brand${idx}`] : q}
-            tempQueries.push(obj)
-        });
-
-        //spread the array of objects into an object
-        const obj = {};
-        const result = Object.assign({}, obj, ...tempQueries);
+        }
 
         //update the URL queries
         router.push({pathname: `/${props.category}`, query: result})
 
-        //update state
+        //push state
         setBrands(updatedBrands);
+    }
+
+    const handleFilterChange = (e) => {
+        console.log(e.target.value)
+        setFilterValue(e.target.value);
+        console.log(router.query);
+        const currentQueries = {...router.query};
+        delete currentQueries['category'];
+        router.push({pathname: `/${props.category}`, query: {...currentQueries, filter: e.target.value}})
     }
 
     return (
@@ -105,6 +72,14 @@ export default function Category(props) {
                         </p>
                     </Link>
                 )}
+            </span>
+            <span style={{marginBottom: '1rem', display: 'block'}}>
+                <p>Filtering Options</p>
+                <select onChange={handleFilterChange}>
+                    <option value={10}>Popularity</option>
+                    <option value={20}>Price : Low - High</option>
+                    <option value={30}>Price : High - Low</option>
+                </select>
             </span>
             <div style={{display: 'flex'}}>
             {props.products && props.products.map((product => {
