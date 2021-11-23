@@ -67,11 +67,14 @@ export default function Category(props) {
             }
         }
 
-        //update the URL queries
+        //update URL queries
         router.push({pathname: `/${props.category}`, query: result});
 
-        //filter products
-        const filteredProducts = filterBrands(props.products, updatedBrands);
+        //filter products based of brand
+        const brandProducts = filterBrands(props.products, updatedBrands);
+
+        //filter products based off filter value
+        const filteredProducts = filterProducts(brandProducts, parseInt(filterValue));
         
         //push state
         setProducts(filteredProducts);
@@ -79,10 +82,21 @@ export default function Category(props) {
     }
 
     const handleFilterChange = (e) => {
-        setFilterValue(e.target.value);
+        const filter = e.target.value;
+        
+        //spread existing queries from router
         const currentQueries = {...router.query};
         delete currentQueries['category'];
-        router.push({pathname: `/${props.category}`, query: {...currentQueries, filter: e.target.value}})
+
+        //update URL queries
+        router.push({pathname: `/${props.category}`, query: {...currentQueries, filter}});
+
+        //filter products
+        const filteredProducts = filterProducts(products, parseInt(filter));
+
+        //push state
+        setProducts(filteredProducts)
+        setFilterValue(filter);
     }
 
     return (
@@ -110,6 +124,7 @@ export default function Category(props) {
                     <div onClick={() => handleClick(product)} key={product._id} style={{width: 250, backgroundColor: 'orange'}}>
                         <img src={product.image} style={{width: 250}}/>
                         <p>{product.title}</p>
+                        <p>{product.price}</p>
                     </div>
                 ))}
             </div>
