@@ -58,6 +58,10 @@ export default function Category(props) {
         //update the URL queries
         router.push({pathname: `/${props.category}`, query: result});
 
+        //filter products
+        const filteredProducts = filterBrands(props.products, updatedBrands);
+        setProducts(filteredProducts);
+
         //push state
         setBrands(updatedBrands);
     }
