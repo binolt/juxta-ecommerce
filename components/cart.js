@@ -1,9 +1,11 @@
+import { useRouter } from "next/dist/client/router";
 import { useEffect, useState } from "react";
 import { cartStorage, useCart } from "../context/CartContext";
 
 export default function Cart () {
-  const {cart, setCart} = useCart();
+  const {cart, setCart, setCartOpen} = useCart();
   const [total, setTotal] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const calcTotal = () => {
@@ -27,7 +29,11 @@ export default function Cart () {
     await cartStorage.setItem("cart", updatedCart);
   }
 
-  
+  const handleCheckout = () => {
+    setCartOpen(false);
+    router.push("/checkout");
+  }
+
   return (
     <>
     <h1>Cart</h1>
@@ -39,6 +45,7 @@ export default function Cart () {
       </span>
     )}
     <h3>Total: {total}</h3>
+    <button onClick={handleCheckout}>Checkout</button>
     </>
   );
 }
