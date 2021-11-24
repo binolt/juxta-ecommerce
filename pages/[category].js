@@ -4,11 +4,7 @@ import { useEffect, useState } from "react";
 import { fetchBrands, fetchFilter, fetchQueries, filterBrands } from "../lib/category";
 import { filterProducts } from "../lib/filter";
 import { DEFAULT_CATEGORIES, DEFAULT_SUBCATEGORIES } from "../lib/shop-data";
-
-//URLS
-const PROD_URL = 'https://wip.d357ssoqg6gnyt.amplifyapp.com';
-const DEV_URL = 'http://localhost:3000';
-const baseUrl = (process.env.NODE_ENV === "development") ? DEV_URL : PROD_URL;
+import { base_url } from "../utils/url";
 
 const filterData = [
     {label: "Featured", value: 10},
@@ -141,7 +137,7 @@ export const getStaticProps = async (ctx) => {
     const {category} = ctx.params;
 
     // //fetch products based off category
-    const res = await fetch(`${baseUrl}/api/shop/${category}`);
+    const res = await fetch(`${base_url}/api/shop/${category}`);
     const products = await res.json();
 
     if(products) {
