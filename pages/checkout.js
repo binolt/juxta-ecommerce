@@ -160,7 +160,7 @@ function CheckoutPayment() {
         //fetch payment_intent_id from cookies
         let { payment_intent_id, customer_id } = parseCookies();
 
-        //check for existing payment_intent
+        //if no existing payment_intent
         if(!payment_intent_id) {
             try {
                 //create a new customer on stripe
@@ -202,34 +202,29 @@ function CheckoutPayment() {
                 return;
             }
         }
-        console.log(payment_intent_id);
 
-        // //fetch payment intent
-        // const payment_intent = await CheckoutService.retrievePaymentIntent(payment_intent_id);
-        // console.log(payment_intent);
+        try {
+            //fetch payment intent
+            const payment_intent = await fetchPaymentIntent(payment_intent_id);
 
-        // //confirm card payment
-        // try {
-        //     const {error, paymentIntent: {status}} = await stripe.confirmCardPayment(payment_intent.client_secret, {
-        //         payment_method: {
-        //             card: elements.getElement(CardElement)
-        //         }
-        //     });
-        //     if(error) throw new Error(error.message);
-        //     if(status === "succeeded") {
-        //         console.log('yep');
-        //         //clear cookies
-        //         //clear local storage
-        //         //redirect user
-        //         //display success message
-        //         setPaymentMessage({msgBody: "Payment Successfully processed !", msgError: false});
-        //     }
-        // } catch (err) {
-        //     setPaymentMessage({msgBody: err.message, msgError: true});
-        //     //dipslay errors
-        // }
+            //confirm card payment
+            const status = await confirmCardPayment(payment_intent, elements, stripe);
 
+            //on successful payment
+            if(status === "succeeded") {
+                //clear cookies
+                //clear local storage
+                //redirect user
+                //display success message
+                setPaymentMessage({msgBody: "Payment Successfully processed !", msgError: false});
+            }
 
+            //on fail payment
+        } catch (err) {
+            //display errors
+            setPaymentMessage({msgBody: err.message, msgError: true});
+            return;
+        }
     }
     return (
         <form onSubmit={handleSubmit} style={{width: 250}}>
@@ -313,6 +308,26 @@ export const appendInvoiceItems = async(cart, customerId) => {
     await Promise.all(actions);
 
     return;
+}
+
+const fetchPaymentIntent = async(payment_intent_id) => {
+    //fetch payment intent
+    const { error, payment_intent } = await CheckoutService.retrievePaymentIntent(payment_intent_id);
+    //handle errors
+    if(error) throw new Error(error.msg, error.type)
+    return payment_intent;
+}
+
+
+const confirmCardPayment = async(payment_intent, elements, stripe) => {
+    const {error, paymentIntent: {status}} = await stripe.confirmCardPayment(payment_intent.client_secret, {
+        payment_method: {
+            card: elements.getElement(CardElement)
+        }
+    });
+    //handle errors
+    if(error) throw new Error(error.msg, error.type)
+    return status;
 }
 
 function Error(message, type) {
