@@ -1,40 +1,42 @@
 import Stripe from "stripe";
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async (req, res) => {
     switch(req.method) {
         case "GET" :
-            fetchCustomer(req, res);
+            fetchInvoice(req, res);
             break;
         case "POST" : 
-            createCustomer(req, res);
+            createInvoice(req, res);
             break;
         case "PUT" : 
-            updateCustomer(req, res);
+            updateInvoice(req, res);
             break;
         case "DELETE" :
-            deleteCustomer(req, res);
+            deleteInvoice(req, res);
             break;
     }
 }
 
-
-const fetchCustomer = async(req, res) => {
+const fetchInvoice = async(req, res) => {
     res.json({msg: "get"})
-
 }
-const createCustomer = async(req, res) => {
+
+const createInvoice = async(req, res) => {
     try {
-        const customer = await stripe.customers.create(req.body);
-        res.status(201).json({id: customer.id});
+        const invoice = await stripe.invoices.create({
+            customer: req.body,
+        });
+        res.json({invoice_id: invoice.id})
     } catch (err) {
         res.status(500).json({error: {msg: err.raw.message, type: err.type}})
     }
 }
-const updateCustomer = async(req, res) => {
+
+const updateInvoice = async(req, res) => {
 
 }
-const deleteCustomer = async(req, res) => {
+const deleteInvoice = async(req, res) => {
 
 }
-

@@ -22,7 +22,7 @@ const CheckoutService = {
       return await res.json();
     },
     createInvoice: async(payload) => {
-      const res = await fetch(`${base_url}/api/stripe/create-invoice`, {
+      const res = await fetch(`${base_url}/api/stripe/invoice`, {
         method: "POST",
         mode: "cors",
         credentials: "same-origin",
@@ -94,10 +94,10 @@ const CheckoutService = {
       return await res.json();
     },
     retrievePaymentIntent: async(id) => {
-      const res = await fetch(`${base_url}/api/stripe/retrieve-payment-intent`, {
-        method: "GET",
-        body: JSON.stringify(id),
-      })
+      const url = new URL(`${base_url}/api/stripe/payment-intent`);
+      const params = { id };
+      url.search = new URLSearchParams(params).toString();
+      const res = await fetch(url);
       return await res.json();
     }
 
