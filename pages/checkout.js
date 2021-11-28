@@ -221,7 +221,7 @@ function CheckoutPayment() {
             if(status === "succeeded") {
                 //display success message
                 setPaymentMessage({msgBody: "Payment Successfully processed !", msgError: false});
-                
+
                 //fetch invoice from cookies
                 const { invoice_id } = parseCookies();
 

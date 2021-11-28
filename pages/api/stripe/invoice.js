@@ -1,37 +1,24 @@
 import Stripe from "stripe";
+import nextConnect from "next-connect";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const handler = nextConnect();
 
-export default async (req, res) => {
-    switch(req.method) {
-        case "GET" :
-            fetchInvoice(req, res);
-            break;
-        case "POST" : 
-            createInvoice(req, res);
-            break;
-        // case "PUT" : 
-        //     updateInvoice(req, res);
-        //     break;
-        // case "DELETE" :
-        //     deleteInvoice(req, res);
-        //     break;
-    }
-}
-
-const fetchInvoice = async(req, res) => {
+handler.get(async(req, res) => {
+    //fetch invoice
     const invoice_id = req.url.replace("/api/stripe/invoice?id=", "");
     try {
         const invoice = await stripe.invoices.retrieve(
             invoice_id
         );
         res.json({completed_invoice: invoice})
-      } catch (err) {
+    } catch (err) {
         res.status(500).json({error: {msg: err.raw.message, type: err.type}})
-      }
-}
+    }
+});
 
-const createInvoice = async(req, res) => {
+handler.post(async(req, res) => {
+    //create invoice
     try {
         const invoice = await stripe.invoices.create({
             customer: req.body,
@@ -40,11 +27,14 @@ const createInvoice = async(req, res) => {
     } catch (err) {
         res.status(500).json({error: {msg: err.raw.message, type: err.type}})
     }
-}
+});
 
-const updateInvoice = async(req, res) => {
+handler.put(async(req, res) => {
+    res.json({msg: "update"})
+});
 
-}
-const deleteInvoice = async(req, res) => {
+handler.delete(async(req, res) => {
+    res.json({msg: "delete"})
+});
 
-}
+export default handler;

@@ -1,40 +1,29 @@
 import Stripe from "stripe";
+import nextConnect from "next-connect";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-export default async (req, res) => {
-    switch(req.method) {
-        case "GET" :
-            fetchCustomer(req, res);
-            break;
-        case "POST" : 
-            createCustomer(req, res);
-            break;
-        case "PUT" : 
-            updateCustomer(req, res);
-            break;
-        case "DELETE" :
-            deleteCustomer(req, res);
-            break;
-    }
-}
+const handler = nextConnect();
 
-
-const fetchCustomer = async(req, res) => {
+handler.get(async(req, res) => {
     res.json({msg: "get"})
+});
 
-}
-const createCustomer = async(req, res) => {
+handler.post(async(req, res) => {
+    //create new customer
     try {
         const customer = await stripe.customers.create(req.body);
         res.status(201).json({id: customer.id});
     } catch (err) {
         res.status(500).json({error: {msg: err.raw.message, type: err.type}})
     }
-}
-const updateCustomer = async(req, res) => {
+});
 
-}
-const deleteCustomer = async(req, res) => {
+handler.put(async(req, res) => {
+    res.json({msg: "update"})
+});
 
-}
+handler.delete(async(req, res) => {
+    res.json({msg: "delete"})
+});
 
+export default handler;
