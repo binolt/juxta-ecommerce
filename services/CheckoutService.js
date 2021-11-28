@@ -47,11 +47,11 @@ const CheckoutService = {
       })
       return await res.json();
     },
-    retrieveInvoice: async(id) => {
-      const res = await fetch(`${base_url}/api/stripe/retrieve-invoice`, {
-        method: "GET",
-        body: JSON.stringify(id),
-      })
+    fetchInvoice: async(id) => {
+      const url = new URL(`${base_url}/api/stripe/invoice`);
+      const params = { id };
+      url.search = new URLSearchParams(params).toString();
+      const res = await fetch(url);
       return await res.json();
     },
     updateInvoice: async(id) => {

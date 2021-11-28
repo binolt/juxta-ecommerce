@@ -10,17 +10,25 @@ export default async (req, res) => {
         case "POST" : 
             createInvoice(req, res);
             break;
-        case "PUT" : 
-            updateInvoice(req, res);
-            break;
-        case "DELETE" :
-            deleteInvoice(req, res);
-            break;
+        // case "PUT" : 
+        //     updateInvoice(req, res);
+        //     break;
+        // case "DELETE" :
+        //     deleteInvoice(req, res);
+        //     break;
     }
 }
 
 const fetchInvoice = async(req, res) => {
-    res.json({msg: "get"})
+    const invoice_id = req.url.replace("/api/stripe/invoice?id=", "");
+    try {
+        const invoice = await stripe.invoices.retrieve(
+            invoice_id
+        );
+        res.json({completed_invoice: invoice})
+      } catch (err) {
+        res.status(500).json({error: {msg: err.raw.message, type: err.type}})
+      }
 }
 
 const createInvoice = async(req, res) => {

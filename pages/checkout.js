@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { checkoutStorage } from "../context/AuthContext";
 import CheckoutService from "../services/CheckoutService";
-import { parseCookies, setCookie } from "nookies";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { useCart } from "../context/CartContext";
 import {loadStripe} from '@stripe/stripe-js';
 import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
@@ -184,6 +184,12 @@ function CheckoutPayment() {
 
                 //create invoice on customer
                 const invoice_id = await createStripeInvoice(customer_id);
+
+                //store invoice_id in cookies
+                setCookie(null, 'invoice_id', invoice_id, {
+                    maxAge: 30 * 24 * 60 * 60,
+                    path: '/',
+                });
                 
                 //finalize invoice
                 const finalized_invoice = await finalizeStripeInvoice(invoice_id);
@@ -209,15 +215,36 @@ function CheckoutPayment() {
             const payment_intent = await fetchPaymentIntent(payment_intent_id);
 
             //confirm card payment
-            const status = await confirmCardPayment(payment_intent, elements, stripe);
+            const { status } = await confirmCardPayment(payment_intent, elements, stripe);
 
             //on successful payment
             if(status === "succeeded") {
-                //clear cookies
-                //clear local storage
-                //redirect user
                 //display success message
                 setPaymentMessage({msgBody: "Payment Successfully processed !", msgError: false});
+                
+                //fetch invoice from cookies
+                const { invoice_id } = parseCookies();
+
+                const { completed_invoice, error } = await CheckoutService.fetchInvoice(invoice_id);
+
+                if(error) console.log(error);
+
+                if(completed_invoice) console.log(completed_invoice);
+
+                //create order in db
+
+                //send email
+
+
+                //clear cookies
+                destroyCookie(null, 'payment_intent_id');
+                destroyCookie(null, 'customer_id');
+                destroyCookie(null, 'invoice_id');
+
+                //clear local storage
+                // checkoutStorage.removeItem('billing_details');
+                // checkoutStorage.removeItem('delivery_preference');
+                //redirect to success page
             }
 
             //on fail payment
@@ -237,12 +264,12 @@ function CheckoutPayment() {
 }
 
 const confirmCardPayment = async(payment_intent, elements, stripe) => {
-    const {error, paymentIntent: {status}} = await stripe.confirmCardPayment(payment_intent.client_secret, {
+    const {error, paymentIntent} = await stripe.confirmCardPayment(payment_intent.client_secret, {
         payment_method: {
             card: elements.getElement(CardElement)
         }
     });
     //handle errors
-    if(error) throw new Error(error.msg, error.type)
-    return status;
+    if(error) throw new Error(error.message, error.type);
+    return paymentIntent;
 }
