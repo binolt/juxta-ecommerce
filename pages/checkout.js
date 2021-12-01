@@ -6,6 +6,7 @@ import { useCart } from "../context/CartContext";
 import {loadStripe} from '@stripe/stripe-js';
 import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { fetchPaymentIntent, appendInvoiceItems, finalizeStripeInvoice, createStripeCustomer, createStripeInvoice, calculateShipping } from "../lib/stripe";
+import OrderService from "../services/OrderService";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
@@ -231,7 +232,24 @@ function CheckoutPayment() {
 
                 if(completed_invoice) console.log(completed_invoice);
 
-                //create order in db
+                //format data
+                const { customer_name, customer_email, customer_address, amount_paid, payment_intent, id } = completed_invoice;
+                const price_ids = completed_invoice.lines.data;
+
+                const payload = {
+                    customer_name, customer_email, customer_address, amount_paid, payment_intent_id: payment_intent, order_id : id, price_ids
+                }
+
+                //create new order in db
+                const { order } = await OrderService.createOrder(payload);
+
+                //store order_id in cookies
+                setCookie(null, 'order_id', order._id, {
+                    maxAge: 30 * 24 * 60 * 60,
+                    path: '/',
+                });
+
+                console.log(order);
 
                 //send email
 

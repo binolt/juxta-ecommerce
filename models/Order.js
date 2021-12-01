@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const productSchema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema({
     customer_name: {
         type: String,
         required: true,
@@ -31,5 +31,5 @@ const productSchema = new mongoose.Schema({
     },
 });
 
-let Dataset = mongoose.models.product || mongoose.model("product", productSchema);
+let Dataset = mongoose.models.order || mongoose.model("order", orderSchema);
 export default Dataset;
