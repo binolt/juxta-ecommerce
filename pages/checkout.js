@@ -7,6 +7,7 @@ import {loadStripe} from '@stripe/stripe-js';
 import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { fetchPaymentIntent, appendInvoiceItems, finalizeStripeInvoice, createStripeCustomer, createStripeInvoice, calculateShipping } from "../lib/stripe";
 import OrderService from "../services/OrderService";
+import { useRouter } from "next/router"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
@@ -71,11 +72,11 @@ export default function Checkout(props) {
     }
 
     const handleChange = (e) => {
-        const mutatedState = {
+        const mutated_state = {
             ...billing_details,
             [e.target.name]: e.target.value,
         }
-        setBillingDetails(mutatedState);
+        setBillingDetails(mutated_state);
     }
 
 
@@ -155,6 +156,7 @@ function CheckoutPayment() {
     const stripe = useStripe();
     const elements = useElements();
     const { cart } = useCart();
+    const router = useRouter();
 
     const handleSubmit = async(e) => {
         e.preventDefault();
@@ -223,46 +225,28 @@ function CheckoutPayment() {
                 //display success message
                 setPaymentMessage({msgBody: "Payment Successfully processed !", msgError: false});
 
-                //fetch invoice from cookies
-                const { invoice_id } = parseCookies();
-
-                const { completed_invoice, error } = await CheckoutService.fetchInvoice(invoice_id);
-
-                if(error) console.log(error);
-
-                if(completed_invoice) console.log(completed_invoice);
-
-                //format data
-                const { customer_name, customer_email, customer_address, amount_paid, payment_intent, id } = completed_invoice;
-                const price_ids = completed_invoice.lines.data;
-
-                const payload = {
-                    customer_name, customer_email, customer_address, amount_paid, payment_intent_id: payment_intent, order_id : id, price_ids
-                }
+                //fetch invoice
+                const completed_invoice = await fetchInvoice();
 
                 //create new order in db
-                const { order } = await OrderService.createOrder(payload);
-
-                //store order_id in cookies
-                setCookie(null, 'order_id', order._id, {
-                    maxAge: 30 * 24 * 60 * 60,
-                    path: '/',
-                });
-
-                console.log(order);
+                const order = await createNewOrder(completed_invoice);
 
                 //send email
+                const { customer_name, customer_email, _id } = order;
 
+                await CheckoutService.sendSuccessEmail({customer_email, customer_name, _id});
 
                 //clear cookies
                 destroyCookie(null, 'payment_intent_id');
                 destroyCookie(null, 'customer_id');
                 destroyCookie(null, 'invoice_id');
 
-                //clear local storage
-                // checkoutStorage.removeItem('billing_details');
-                // checkoutStorage.removeItem('delivery_preference');
+                // clear local storage
+                checkoutStorage.removeItem('billing_details');
+                checkoutStorage.removeItem('delivery_preference');
+
                 //redirect to success page
+                router.push({pathname: "/orders/success", query: {purchaseId: order._id}});
             }
 
             //on fail payment
@@ -290,4 +274,38 @@ const confirmCardPayment = async(payment_intent, elements, stripe) => {
     //handle errors
     if(error) throw new Error(error.message, error.type);
     return paymentIntent;
+}
+
+const createNewOrder = async(completed_invoice) => {
+    //format data
+    const { customer_name, customer_email, customer_address, amount_paid, payment_intent, id } = completed_invoice;
+    const price_ids = completed_invoice.lines.data;
+
+    const payload = {
+        customer_name, customer_email, customer_address, amount_paid, payment_intent_id: payment_intent, order_id : id, price_ids
+    }
+
+    //create new order in db
+    const { order, error } = await OrderService.createOrder(payload);
+
+    if(error) throw new Error("SOmething went wrong :/");
+
+    //store order_id in cookies | expires in 12 hours
+    setCookie(null, 'order_id', order._id, {
+        maxAge: 30 * 24 * 60,
+        path: '/',
+    });
+
+    return order;
+}
+
+const fetchInvoice = async() => {
+    //fetch invoice from cookies
+    const { invoice_id } = parseCookies();
+
+    const { completed_invoice, error } = await CheckoutService.fetchInvoice(invoice_id);
+
+    if(error) throw new Error("SOmething went wrong :/");
+
+    return completed_invoice;;
 }
