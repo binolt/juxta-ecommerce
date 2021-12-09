@@ -1,9 +1,9 @@
 import { base_url } from "../utils/url";
 
 const OrderService = {
-    fetchOrder: async(id) => {
+    fetchOrder: async(email, id) => {
         const url = new URL(`${base_url}/api/order`);
-        const params = { id };
+        const params = { id, email };
         url.search = new URLSearchParams(params).toString();
         const res = await fetch(url);
         return await res.json();

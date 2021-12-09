@@ -141,14 +141,6 @@ export default function Checkout(props) {
     );
 }
 
-export const getServerSideProps = async (ctx) => {
-    return {
-        props:{
-            data:null
-        }
-    }
-}
-
 function CheckoutPayment() {
     const [payment_message, setPaymentMessage] = useState(null);
 

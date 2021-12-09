@@ -5,8 +5,30 @@ const handler = nextConnect();
 
 handler.get(async(req, res) => {
     //fetch existing order
-    const order_id = req.url.replace("/api/order?id=", "");
-    const { order, error } = await fetchOrder(order_id);
+    const params = req.url.replace("/api/order?", "").split('&');
+    let id;
+    let email;
+    params.forEach((query) => {
+        const param = query.split("=");
+        const key = param[0];
+        const value = decodeURIComponent(param[1]);
+        if(key === "id") {
+            id = value;
+            return;
+        }
+        if(key === "email") {
+            email = value;
+            return;
+        }
+    });
+
+    //ensure all fields are filled in
+    if(!id || !email) {
+        res.json({error: "Please ensure all fields are filled in."});
+        return;
+    }
+
+    const { order, error } = await fetchOrder(id, email);
 
     //handle errors
     if(error) {
