@@ -9,6 +9,7 @@
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
     "@hapi/iron": "^6.0.0",
+    "@mui/icons-material": "^5.2.4",
     "@mui/material": "^5.1.1",
     "@sendgrid/mail": "^7.6.0",
     "@stripe/react-stripe-js": "^1.6.0",

@@ -1,0 +1,24 @@
+.nav-wrapper {
+    height: 70px;
+    width: 100%;
+}
+
+.nav-content {
+    width: var(--content-width);
+    height: inherit;
+    margin: 0 auto;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    a {
+        margin-left: 1.5rem;
+        text-decoration: none;
+        color: black;
+        font-weight: 500;
+        font-size: 14px;
+    }
+    img {
+        cursor: pointer;
+    }
+}

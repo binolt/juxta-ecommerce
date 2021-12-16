@@ -1,9 +1,10 @@
 import { useRouter } from "next/dist/client/router";
 import { useEffect, useState } from "react";
 import { cartStorage, useCart } from "../context/CartContext";
+import Drawer from '@mui/material/Drawer';
 
 export default function Cart () {
-  const {cart, setCart, setCartOpen} = useCart();
+  const {cart, setCart, setCartOpen, cartOpen} = useCart();
   const [total, setTotal] = useState(null);
   const router = useRouter();
 
@@ -35,17 +36,21 @@ export default function Cart () {
   }
 
   return (
-    <>
-    <h1>Cart</h1>
-    {cart.map((product, idx) => 
-      <span key={`cart-item-${product._id}`} style={{display: 'flex'}}>
-        <p>{product.title}</p>
-        <p style={{margin: '0 1rem'}}>Quantity : {product.quantity}</p>
-        <button onClick={() => handleRemove(idx)}>Remove</button>
-      </span>
-    )}
-    <h3>Total: {total}</h3>
-    <button onClick={handleCheckout}>Checkout</button>
-    </>
+    <Drawer
+      anchor='right'
+      open={cartOpen}
+      onClose={() => setCartOpen(false)}
+    >
+      <h1>Cart</h1>
+      {cart.map((product, idx) => 
+        <span key={`cart-item-${product._id}`} style={{display: 'flex'}}>
+          <p>{product.title}</p>
+          <p style={{margin: '0 1rem'}}>Quantity : {product.quantity}</p>
+          <button onClick={() => handleRemove(idx)}>Remove</button>
+        </span>
+      )}
+      <h3>Total: {total}</h3>
+      <button onClick={handleCheckout}>Checkout</button>
+    </Drawer>
   );
 }

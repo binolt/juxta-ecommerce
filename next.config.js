@@ -6,6 +6,9 @@ if (typeof require !== "undefined") {
 }
 
 module.exports = {
+    images: {
+      domains: ['res.cloudinary.com'],
+    },
     env: {
       "MONGODB_URI": MONGODB_URI,
       "TOKEN_SECRET": TOKEN_SECRET,

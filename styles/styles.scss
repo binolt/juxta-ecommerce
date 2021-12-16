@@ -1,6 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import "./breakpoints.scss";
-@import "./navbar.scss";
+@import "./navbar";
+
+:root, body[data-theme="default"] {
+  --content-width: 1366px;
+  --color-contrast-100 : #ffffff;
+  --color-contrast-200 : #d8d8d8;
+  --color-contrast-300 : #6e6e6e;
+  --color-contrast-400 : #3a3a3a;
+  --color-accent-100 : #fc624d;
+  --color-accent-200 : #ce4f3e;
+}
 
 .app {
   h1 {
