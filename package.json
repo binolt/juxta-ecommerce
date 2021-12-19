@@ -34,5 +34,8 @@
     "sass": "1.26.3",
     "stripe": "^8.188.0",
     "swr": "^1.0.1"
+  },
+  "devDependencies": {
+    "babel-plugin-inline-react-svg": "^2.0.1"
   }
 }

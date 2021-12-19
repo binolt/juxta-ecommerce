@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import "./breakpoints.scss";
 @import "./navbar";
+@import "./index";
 
 :root, body[data-theme="default"] {
   --content-width: 1366px;
@@ -8,6 +9,7 @@
   --color-background-200 : #181818;
   --color-background-accent : #4624c7;
   --color-primary-text : #fff;
+  --color-secondary-text : #c7c7c7;
   --color-accent-text : #897dff;
   --color-gradient-primary : linear-gradient(90deg, rgba(40,132,246,1) 0%, rgba(123,44,255,1) 100%);
 }

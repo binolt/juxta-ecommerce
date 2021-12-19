@@ -1,4 +1,3 @@
-import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
