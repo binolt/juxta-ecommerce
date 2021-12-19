@@ -22,18 +22,19 @@ export default function Navbar() {
     return (
         <nav className='nav-wrapper'>
             <div className='nav-content'>
-                <img src="https://res.cloudinary.com/dxqmbhsis/image/upload/v1639680022/logo_s4h872.png"/>
-                <span>
+                <span className='flexstart'>
+                    <img className='logo' src="https://res.cloudinary.com/dxqmbhsis/image/upload/v1639881399/aoco_logo_hvcty3.png"/>
                     <Link href="/">HOME</Link>
                     <Link href="/shop">SHOP</Link>
                     <Link href="/about">ABOUT</Link>
-                    <IconButton style={{marginLeft: '1.5rem'}} aria-label="nav-cart" onClick={() => setCartOpen(true)}>
-                        <StyledBadge badgeContent={1} color="secondary">
+                </span>
+                <span className='flexend'>
+                    <p>Sign In</p>
+                    <hr/>
+                    <IconButton aria-label="nav-cart" onClick={() => setCartOpen(true)}>
+                        <StyledBadge color="secondary">
                             <ShoppingCartIcon />
                         </StyledBadge>
-                    </IconButton>
-                    <IconButton style={{marginLeft: '1.5rem'}} aria-label="nav-search">
-                        <SearchIcon/>
                     </IconButton>
                 </span>
             </div>

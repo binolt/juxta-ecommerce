@@ -1,5 +1,5 @@
 .nav-wrapper {
-    height: 70px;
+    height: 80px;
     width: 100%;
 }
 
@@ -9,16 +9,39 @@
     margin: 0 auto;
     box-sizing: border-box;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
     a {
         margin-left: 1.5rem;
         text-decoration: none;
-        color: black;
+        color: var(--color-primary-text);
         font-weight: 500;
         font-size: 14px;
     }
     img {
         cursor: pointer;
+        margin-right: 2rem;
+    }
+    svg {
+        color: var(--color-primary-text);
+    }
+    .flexstart {
+        display: flex;
+        align-items: center;
+        height: 30px;
+    }
+    .flexend {
+        display: flex;
+        align-items: center;
+        p {
+            cursor: pointer;
+        }
+        hr {
+            width: 1px;
+            border: 0;
+            margin: 0 1rem 0 1.5rem;
+            height: 26px;
+            background-color: #fff;
+        }
     }
 }

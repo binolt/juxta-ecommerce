@@ -4,25 +4,22 @@
 
 :root, body[data-theme="default"] {
   --content-width: 1366px;
-  --color-contrast-100 : #ffffff;
-  --color-contrast-200 : #d8d8d8;
-  --color-contrast-300 : #6e6e6e;
-  --color-contrast-400 : #3a3a3a;
-  --color-accent-100 : #fc624d;
-  --color-accent-200 : #ce4f3e;
-}
-
-.app {
-  h1 {
-    font-weight: 400;
-  }
+  --color-background-100 : #121212;
+  --color-background-200 : #181818;
+  --color-background-accent : #4624c7;
+  --color-primary-text : #fff;
+  --color-accent-text : #897dff;
+  --color-gradient-primary : linear-gradient(90deg, rgba(40,132,246,1) 0%, rgba(123,44,255,1) 100%);
 }
 
 body {
-  color: var(--color-contrast-300);
-  background-color: var(--color-contrast-100);
+  color: var(--color-primary-text);
+  background-color: var(--color-background-100);
   font-size: 16px;
 }
+
+
+//css reset
 
 *, *:before, *:after{
   box-sizing: border-box;
