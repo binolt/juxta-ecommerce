@@ -10,7 +10,7 @@
     height: 1100px;
     .app_main_container {
         background-color: var(--color-background-100);
-        padding: 16rem 0;
+        height: calc(80vh - 100px);
     }
     .app_main_content {
         width: var(--content-width);
@@ -18,6 +18,13 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
+        height: inherit;
+        box-sizing: border-box;
+        padding: 0 2rem;
+        @include media('<=desktop') {
+            width: 100%;
+        }
         h1 {
             font-size: 3.5rem;
             text-align: center;
@@ -27,9 +34,14 @@
         }
         p {
             text-align: center;
-            width: 50%;
             color: var(--color-secondary-text);
             margin: 2.5rem 0;
+            width: 768px;
+            box-sizing: border-box;
+            padding: 0 4rem;
+            @include media('<=tablet') {
+                width: 100%;
+            }
         }
     }
 }
@@ -83,24 +95,43 @@
     height: 1300px;
     overflow: hidden;
     padding: 15rem 0;
+    @include media('<=SMdesktop') {
+        width: 100%;
+        padding: 5rem 0;
+    }
     .app_features_content {
         z-index: 10;
         position: relative;
         width: var(--content-width);
         margin: 0 auto;
+        @include media('<=desktop') {
+            width: 100%;
+        }
         h2 {
+            padding: 0 2rem;
             font-size: 2rem;
-            width: 820px;
+            width: 1024px;
             margin: 0 auto;
             margin-bottom: 5rem;
+            @include media('<=SMdesktop') {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
         }
         .app_features_item_wrapper {
             margin: 0 auto;
             display: flex;
             flex-wrap: wrap;
-            width: 800px;
+            width: 1024px;
             column-gap: 100px;
             justify-content: space-between;
+            padding: 0 2rem;
+            @include media('<=SMdesktop') {
+                flex-direction: column;
+                width: 100%;
+                align-items: center;
+            }
         }
         .app_features_item {
             display: flex;
@@ -130,9 +161,15 @@
         }
         .app_features_button_wrapper {
             position: relative;
-            width: 800px;
+            width: 1024px;
             margin: 0 auto;
             margin-top: 1rem;
+            padding: 0 2rem;
+            @include media('<=SMdesktop') {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
         }
     }
 }
@@ -146,7 +183,7 @@
         width: inherit;
         position: absolute;
         top: 0;
-        height: 1000px;
+        height: 100vh;
         display: flex;
         align-items: center;
     }
@@ -156,6 +193,10 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        @include media('<=desktop') {
+            width: 100%;
+            padding: 0 2rem;
+        }
         h2 {
             font-size: 2rem;
             display: flex;
@@ -167,6 +208,8 @@
         }
         p {
             margin: 2rem 0;
+            text-align: center;
+            width: 95%;
         }
         button {
             background: rgba(black, 0.5);

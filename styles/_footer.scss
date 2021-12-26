@@ -7,6 +7,9 @@
         align-items: center;
         width: var(--content-width);
         padding-bottom: 8rem;
+        @include media('<=desktop') {
+            width: 100%;
+        }
         hr {
             width: inherit;
             margin-bottom: 8rem;

@@ -42,7 +42,6 @@ export default function Navbar() {
                     <span className='nav_end'>
                         <p>SIGN IN</p>
                         <hr/>
-
                         <IconButton className='nav_menu nav_icon_button' aria-label="nav-menu">
                             <MenuIcon />
                         </IconButton>
