@@ -10,7 +10,7 @@
     height: 1100px;
     .app_main_container {
         background-color: var(--color-background-100);
-        padding: 10rem 0;
+        padding: 16rem 0;
     }
     .app_main_content {
         width: var(--content-width);
@@ -24,57 +24,175 @@
             span {
                 color: var(--color-accent-text);
             }
-            transition: transform 1.35s ease, opacity 1s ease;
-            transform: translateY(5rem);
         }
         p {
             text-align: center;
             width: 50%;
             color: var(--color-secondary-text);
             margin: 2.5rem 0;
-            transition: transform 1.5s ease, opacity 1s ease;
-            transform: translateY(6rem);
-
         }
-        button {
-            padding: 0;
-            width: fit-content;
-            padding: .125rem;
-            border-radius: 3px;
-            background: var(--color-gradient-primary);
-            border: 0;
-            outline: 0;
-            cursor: pointer;
-            transition: transform 0.5s ease, opacity 3.5s ease;
-            &:hover {
-                //move arrow on button move downwards
-                div {
-                    svg {
-                        transform: translateY(2px);
-                    }
-                }
-                //move button down
-                transform: translateY(.25rem) !important;
+    }
+}
+
+.app_gradient_button {
+    user-select: none;
+    padding: 0;
+    width: fit-content;
+    padding: .125rem;
+    border-radius: 3px;
+    background: var(--color-gradient-primary);
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    transition: transform 0.5s ease, opacity 3.5s ease;
+    &:hover {
+        //move arrow on button move downwards
+        div {
+            svg {
+                transform: translateY(2px);
             }
-            div {
-                color: #fff;
-                background: rgba(black, 0.7);
-                padding: 1rem 2rem;
-                border-radius: 3px;
-                font-size: 14px;
-                display: flex;
-                align-items: center;
-                svg {
-                    transition: transform 0.7s ease;
-                    margin-left: 5px;
-                    width: 16px;
-                    height: 16px;
-                }
-            }
+        }
+        //move button down
+        transform: translateY(.25rem) !important;
+    }
+    div {
+        color: #fff;
+        background: rgba(black, 0.7);
+        padding: 1rem 2rem;
+        border-radius: 3px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        svg {
+            transition: transform 0.7s ease;
+            margin-left: 5px;
+            width: 16px;
+            height: 16px;
         }
     }
 }
 
 .app_features {
+    //colored layered waves
+    .blob_2 {
+        position: absolute;
+        bottom: 0;
+    }
+    position: relative;
     background-color: var(--color-background-200);
+    height: 1300px;
+    overflow: hidden;
+    padding: 15rem 0;
+    .app_features_content {
+        z-index: 10;
+        position: relative;
+        width: var(--content-width);
+        margin: 0 auto;
+        h2 {
+            font-size: 2rem;
+            width: 820px;
+            margin: 0 auto;
+            margin-bottom: 5rem;
+        }
+        .app_features_item_wrapper {
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            width: 800px;
+            column-gap: 100px;
+            justify-content: space-between;
+        }
+        .app_features_item {
+            display: flex;
+            margin-bottom: 4rem;
+            width: 320px;
+            justify-content: space-between;
+            .icon {
+                background-color: rgba(black, 0.3);
+                border-radius: 8px;
+                height: 46px;
+                width: 46px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .body {
+                width: 260px;
+                h6 {
+                    font-size: .9rem;
+                    margin-bottom: .5rem;
+                }
+                p {
+                    font-size: .9rem;
+                    line-height: 1.05rem;
+                }
+            }
+        }
+        .app_features_button_wrapper {
+            position: relative;
+            width: 800px;
+            margin: 0 auto;
+            margin-top: 1rem;
+        }
+    }
+}
+
+
+.app_started {
+    background-color: var(--color-background-accent);
+    position: relative;
+    width: 100%;
+    .app_started_wrapper {
+        width: inherit;
+        position: absolute;
+        top: 0;
+        height: 1000px;
+        display: flex;
+        align-items: center;
+    }
+    .app_started_content {
+        width: var(--content-width);
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        h2 {
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            svg {
+                margin-left: .75rem;
+                font-size: 2rem;
+            }
+        }
+        p {
+            margin: 2rem 0;
+        }
+        button {
+            background: rgba(black, 0.5);
+            border: 0;
+            outline: 0;
+            color: #fff;
+            font-size: 14px;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: transform .65s ease;
+            &:hover {
+                transform: translateY(.35rem);
+                svg {
+                    transform: translateY(-.025rem);
+                }
+            }
+            svg {
+                transition: transform 0.7s ease;
+                margin-left: .5rem;
+                width: 16px;
+                height: 16px;
+                margin-top: 1px;
+            }
+        }
+    }
 }

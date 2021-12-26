@@ -2,6 +2,7 @@
 @import "./breakpoints.scss";
 @import "./navbar";
 @import "./index";
+@import "./footer";
 
 :root, body[data-theme="default"] {
   --content-width: 1366px;
@@ -11,6 +12,7 @@
   --color-primary-text : #fff;
   --color-secondary-text : #c7c7c7;
   --color-accent-text : #897dff;
+  --color-secondary-accent-text: #c1cbe9;
   --color-gradient-primary : linear-gradient(90deg, rgba(40,132,246,1) 0%, rgba(123,44,255,1) 100%);
 }
 
@@ -25,6 +27,10 @@ body {
 
 *, *:before, *:after{
   box-sizing: border-box;
+}
+
+button {
+  font-family: inherit;
 }
 
 html, body, div, span, object, iframe, figure, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, code, em, img, small, strike, strong, sub, sup, tt, b, u, i, ol, ul, li, fieldset, form, label, table, caption, tbody, tfoot, thead, tr, th, td, main, canvas, embed, footer, header, nav, section, video{

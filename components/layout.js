@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./navbar";
 import { useUser } from "../lib/auth/hooks";
 import { useAuth } from "../context/AuthContext";
+import Footer from "./footer";
 
 export default function Layout({children}) {
     const user = useUser();
@@ -16,10 +17,9 @@ export default function Layout({children}) {
         };
     }, [user]);
 
-    return loaded && (
-        <>
+    return loaded && (<>
         <Navbar/>
         <main>{children}</main>
-        </>
-    );
+        <Footer/>
+    </>);
 }

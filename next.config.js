@@ -1,10 +1,5 @@
 const { SENDGRID_API_KEY, NEXT_PUBLIC_STRIPE_PUBLIC_KEY, MONGODB_URI, TOKEN_SECRET, GITHUB_CALLBACK_URL, GITHUB_CLIENT_SECRET, GITHUB_CLIENT_ID, STRIPE_SECRET_KEY, CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET} = process.env;
 
-if (typeof require !== "undefined") {
-  require.extensions[".less"] = () => {};
-  require.extensions[".css"] = (file) => {};
-}
-
 module.exports = {
     images: {
       domains: ['res.cloudinary.com'],
@@ -21,5 +16,13 @@ module.exports = {
       "CLOUDINARY_API_SECRET": CLOUDINARY_API_SECRET,
       "NEXT_PUBLIC_STRIPE_PUBLIC_KEY": NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
       "SENDGRID_API_KEY": SENDGRID_API_KEY
+    },
+    webpack(config) {
+      config.module.rules.push({
+        test: /\.svg$/,
+        use: ["@svgr/webpack"]
+      });
+  
+      return config;
     }
   }

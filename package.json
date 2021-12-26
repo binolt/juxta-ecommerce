@@ -14,6 +14,7 @@
     "@sendgrid/mail": "^7.6.0",
     "@stripe/react-stripe-js": "^1.6.0",
     "@stripe/stripe-js": "^1.21.1",
+    "@svgr/webpack": "^6.1.2",
     "@zeit/next-css": "^1.0.1",
     "cloudinary": "^1.27.1",
     "cookie": "^0.4.1",
@@ -31,9 +32,14 @@
     "passport-local": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-particles-js": "^3.6.0",
+    "react-reveal": "^1.2.2",
+    "react-scroll": "^1.8.4",
+    "react-tsparticles": "^1.37.6",
     "sass": "1.26.3",
     "stripe": "^8.188.0",
-    "swr": "^1.0.1"
+    "swr": "^1.0.1",
+    "tsparticles": "^1.37.6"
   },
   "devDependencies": {
     "babel-plugin-inline-react-svg": "^2.0.1"
