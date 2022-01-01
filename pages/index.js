@@ -6,35 +6,40 @@ import ShieldIcon from '@mui/icons-material/Shield';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import StorageIcon from '@mui/icons-material/Storage';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import Particles from 'react-particles-js';
+import Particles from "react-tsparticles";
 import { Link, Element } from "react-scroll";
 import LaunchIcon from '@mui/icons-material/Launch';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import Zoom from 'react-reveal/Zoom';
 import Fade from 'react-reveal/Fade';
 
-export const params = {
-  "particles": {
-      "number": {
-          "value": 24
+export const options = {
+    fpsLimit: 60,
+    particles: {
+      color: {
+        value: "#ffffff",
       },
-      "size": {
-          "value": 5
+      move: {
+        direction: "none",
+        enable: true,
+        random: false,
+        speed: 1,
+        straight: false,
       },
-      "line_linked": {
-        "enable": false
+      number: {
+        value: 25,
       },
-      "move" : {
-          "speed": 1
+      opacity: {
+        value: 0.25,
       },
-      "opacity": {
-          "value": 0.1
+      shape: {
+        type: "circle",
       },
-      "size": {
-        "random": true,
-        "value": 15,
+      size: {
+        random: true,
+        value: 10,
       },
-  },
+    },
 }
 
 export default function Home() {
@@ -165,9 +170,13 @@ export default function Home() {
         <Blob2Svg className="blob_2"/>
       </Element>
       <Element name="started" className="app_started">
-        <Fade duration={4000}>
-          <Particles height={1000} params={params}/>
-        </Fade>
+        <Fade duration={2000}>
+        <Particles
+          id="tsparticles"
+          canvasClassName="tsparticles_canvas"
+          options={options}
+    />
+    </Fade>
         <div className="app_started_wrapper">
           <div className="app_started_content">
             <Fade bottom delay={200} duration={1500}>

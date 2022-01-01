@@ -1,9 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import DiscordIcon from "../public/discord_logo.svg";
-import Image from "next/image";
 
 export default function Footer() {
     return (
